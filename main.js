@@ -139,15 +139,23 @@ function buildTierSection(tier, baseUrl) {
   
   const showFirst = Number.isInteger(tier.showFirst) ? tier.showFirst : 6;
   let items = Array.isArray(tier.items) ? tier.items : [];
-  
-  // HANYA RANDOMIZE PRODUK DALAM TIER - BUKAN URUTAN TIER
-  items = shuffleArray(items);
-  
-  // Select random featured products (1-2 per tier)
+
+  // === NEW PINNED LOGIC ===
+  // 1. Preserve the order of pinned items exactly as they appear in the manifest
+  const pinned = items.filter(it => it.pinned);
+  // 2. Randomize only the non-pinned items
+  let others = items.filter(it => !it.pinned);
+  others = shuffleArray(others);
+  // 3. Recombine: pinned first, then randomized others
+  items = [...pinned, ...others];
+  // ========================
+
+  // Select random featured products (1–2 among the VISIBLE (non-extra) group)
+  const visibleCount = Math.min(showFirst, items.length);
   const featuredCount = Math.floor(Math.random() * 2) + 1;
   const featuredIndices = new Set();
-  while (featuredIndices.size < Math.min(featuredCount, Math.min(showFirst, items.length))) {
-    featuredIndices.add(Math.floor(Math.random() * Math.min(showFirst, items.length)));
+  while (featuredIndices.size < Math.min(featuredCount, visibleCount)) {
+    featuredIndices.add(Math.floor(Math.random() * visibleCount));
   }
   
   items.forEach((item, idx) => {
