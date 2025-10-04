@@ -137,7 +137,7 @@ function buildTierSection(tier, baseUrl) {
   const grid = el('div', 'product-grid');
   section.appendChild(grid);
   
-  const showFirst = Number.isInteger(tier.showFirst) ? tier.showFirst : 3;
+  const showFirst = Number.isInteger(tier.showFirst) ? tier.showFirst : 6;
   let items = Array.isArray(tier.items) ? tier.items : [];
   
   // HANYA RANDOMIZE PRODUK DALAM TIER - BUKAN URUTAN TIER
