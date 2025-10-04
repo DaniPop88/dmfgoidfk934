@@ -36,7 +36,7 @@ img { max-width: 100%; display: block; -webkit-user-drag: none; user-select: non
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #412573, #140e26);
+  background: linear-gradient(45deg, #41257, #140e26);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -259,7 +259,7 @@ img { max-width: 100%; display: block; -webkit-user-drag: none; user-select: non
 /* ================== GRID ================== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-bottom: 12px;
 }
