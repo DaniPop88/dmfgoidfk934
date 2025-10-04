@@ -3,8 +3,8 @@
   "baseUrl": "https://cdn.jsdelivr.net/gh/popindi/qq8820img@d544f3bfa79a7c61c5a47596634be4d63feabf14/images/",
   "tiers": [
     {
-      "id": "INVITE-1",
-      "label": "CONVIDAR 1 MEMBRO",
+      "id": "IFUSHDKS",
+      "label": "BÔNUS ESPECIAL PARA VOCÊ!",
       "showFirst": 3,
       "items": [
         { "file": "inv1p1.png", "name": "MINI SUPORTE CELULAR MESA AJUSTÁVEL TABLET" },
@@ -15,14 +15,7 @@
         { "file": "inv1p6.png", "name": "PINCEL SILICONE CONFEITAR COZIMENTO CHURRASCO" },
         { "file": "inv1p7.png", "name": "ESPONJA MAKE UP BASE BLUSH CORRETIVO" },
         { "file": "inv1p8.png", "name": "KIT 6 XUXINHAS ELÁSTICO CABELO FEMININO" },
-        { "file": "inv1p9.png", "name": "ALICATE DE UNHA COLORIDO" }
-      ]
-    },
-    {
-      "id": "INVITE-2",
-      "label": "CONVIDAR 2 MEMBRO",
-      "showFirst": 3,
-      "items": [
+        { "file": "inv1p9.png", "name": "ALICATE DE UNHA COLORIDO" },
         { "file": "inv2p1.png", "name": "TIPO C CABO USB TURBO" },
         { "file": "inv2p2.png", "name": "CAPA DE BRAÇO CELULAR CORRIDA ACADEMIA" },
         { "file": "inv2p3.png", "name": "SUPORTE DOBRÁVEL CELULAR COM TRIPÉ PORTÁTIL" },
@@ -40,14 +33,7 @@
         { "file": "inv2p15.png", "name": "TAPETE BANHEIRO OVAL ANTIDERRAPANTE SORTIDO" },
         { "file": "inv2p16.png", "name": "FONES BLUETOOTH E6S TWS 5.2" },
         { "file": "inv2p17.png", "name": "DIFUSOR UMIDIFICADOR DE AR USB LED PORTÁTIL" },
-        { "file": "inv2p18.png", "name": "LIXADOR DE PÉ ELÉTRICO PORTÁTIL" }
-      ]
-    },
-    {
-      "id": "INVITE-3",
-      "label": "CONVIDAR 3 MEMBRO",
-      "showFirst": 3,
-      "items": [
+        { "file": "inv2p18.png", "name": "LIXADOR DE PÉ ELÉTRICO PORTÁTIL" },
         { "file": "inv3p1.png", "name": "NOVO FONES TWS 5.3" },
         { "file": "inv3p2.png", "name": "FONE P47 BLUETOOTH 5.0" },
         { "file": "inv3p3.png", "name": "FONE TWS M25 À PROVA D’ÁGUA 9D" },
@@ -67,14 +53,7 @@
         { "file": "inv3p17.png", "name": "REPELENTE ELETRÔNICO ULTRASSÔNICO BIVOLT" },
         { "file": "inv3p18.png", "name": "BARBEADOR E MAQUINA DE CORTE DRAGÃO KIT MASCULINO" },
         { "file": "inv3p19.png", "name": "FRIGIDEIRA ANTIADERENTE 12CM TEFLON PREMIUM OVOS" },
-        { "file": "inv3p20.png", "name": "KIT 3 NECESSAIRE TRANSPARENTE IMPERMEÁVEL WASHBAG" }
-      ]
-    },
-    {
-      "id": "INVITE-5",
-      "label": "CONVIDAR 5 MEMBRO",
-      "showFirst": 3,
-      "items": [
+        { "file": "inv3p20.png", "name": "KIT 3 NECESSAIRE TRANSPARENTE IMPERMEÁVEL WASHBAG" },
         { "file": "inv5p1.png", "name": "FONE S20 INTRA-AURICULAR BLUETOOTH À PROVA D’ÁGUA" },
         { "file": "inv5p2.png", "name": "FONE BLUETOOTH OVER-EAR CONFORTÁVEL" },
         { "file": "inv5p3.png", "name": "FONE JM13 BLUETOOTH ERGONÔMICO CANCELAMENTO RUÍDO" },
@@ -95,14 +74,7 @@
         { "file": "inv5p18.png", "name": "BALANÇA CORPORAL DIGITAL BLUETOOTH ATÉ 180KG" },
         { "file": "inv5p19.png", "name": "FRIGIDEIRA ANTIADERENTE 4 PARTES OVO ou HAMBÚRGUER" },
         { "file": "inv5p20.png", "name": "FRIGIDEIRA ALTA 24CM TAMPA DE VIDRO + ESPÁTULA" },
-        { "file": "inv5p21.png", "name": "MINI FERRO DE PASSAR ROUPA VIAGEM BIVOLT" }
-      ]
-    },
-    {
-      "id": "INVITE-10",
-      "label": "CONVIDAR 10 MEMBRO",
-      "showFirst": 3,
-      "items": [
+        { "file": "inv5p21.png", "name": "MINI FERRO DE PASSAR ROUPA VIAGEM BIVOLT" },
         { "file": "inv10p1.png", "name": "CAIXA SOM ALEXA ECHO DOT 5ª GERAÇÃO" },
         { "file": "inv10p2.png", "name": "RELÓGIO T800 ULTRA 3 MAX SMARTWATCH ESPORTIVO" },
         { "file": "inv10p3.png", "name": "FONE BLUETOOTH 5.3 TWS CANCELAMENTO RUÍDO" },
@@ -129,14 +101,7 @@
         { "file": "inv10p24.png", "name": "MINI TRAVE FUTEBOL 76CM BOLA E BOMBA DM TOYS" },
         { "file": "inv10p25.png", "name": "BOLA DE BASQUETE PENALTY PLAYOFF LARANJA" },
         { "file": "inv10p26.png", "name": "ESPREMEDOR ELÉTRICO RECARREGÁVEL USB FRUTAS" },
-        { "file": "inv10p27.png", "name": "ESCOVA ELÉTRICA 9 EM 1 GIRATÓRIA" }
-      ]
-    },
-    {
-      "id": "INVITE-20",
-      "label": "CONVIDAR 20 MEMBRO",
-      "showFirst": 3,
-      "items": [
+        { "file": "inv10p27.png", "name": "ESCOVA ELÉTRICA 9 EM 1 GIRATÓRIA" },
         { "file": "inv20h1.png", "name": "CAIXA SOM PORTÁTIL BLUETOOTH LED RGB" },
         { "file": "inv20h2.png", "name": "CÂMERA SEGURANÇA COIBEU A28B 1080P 3MP WIFI" },
         { "file": "inv20h3.png", "name": "FONE INOVA BLUETOOTH ALTO-FALANTE VIVA VOZ" },
