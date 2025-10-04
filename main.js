@@ -386,7 +386,7 @@ if (fullNameInput) {
    Game ID Validation dinamis (berdasarkan platform)
 ======================================== */
 const RULE_GROUP_A = new Set(['POPBRA','POP888','POP678','POPPG','POP555','POPLUA','POPBEM','POPCEU']);
-const RULE_GROUP_B = new Set(['POPDEZ','POPWB','POPBOA','POPFLU']);
+const RULE_GROUP_B = new Set(['POPDEZ','POPWB','POPBOA','POPFLU','POPN1']);
 
 function getGameIdConfig() {
   // ADD SAFETY CHECK
