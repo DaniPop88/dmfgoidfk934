@@ -32,16 +32,22 @@ img { max-width: 100%; display: block; -webkit-user-drag: none; user-select: non
 /* ================== LOADING ANIMATION ================== */
 .loading-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #41257, #140e26);
+  /* Pakai variabel dinamis agar konsisten dengan tema */
+  background: var(--dynamic-gradient, linear-gradient(135deg, #412573, #140e26));
+  /* Fallback kalau gradient gagal */
+  background-color: #140e26;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   transition: opacity 0.5s ease-out;
+}
+
+body.loading {
+  overflow: hidden;
 }
 
 .loading-spinner {
