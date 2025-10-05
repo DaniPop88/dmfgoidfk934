@@ -4,12 +4,12 @@
   "tiers": [
     {
       "id": "IFUSHDKS",
-      "label": "BÔNUS ESPECIAL PARA VOCÊ!",
+      "label": "PRESENTE ESPECIAL PARA VOCÊ!",
       "showFirst": 6,
       "items": [
+        { "file": "N1SHOP-3.webp", "name": "FONE E6S TWS BLUETOOTH SEM FIO PRETO", "pinned": true },
         { "file": "N1SHOP-1.webp", "name": "BOLSA TÉRMICA FEMININA GRANDE", "pinned": true  },
         { "file": "N1SHOP-2.webp", "name": "GARRAFA TÉRMICA INOX 500ML COM TERMÔMETRO LED", "pinned": true },
-        { "file": "N1SHOP-3.webp", "name": "FONE E6S TWS BLUETOOTH SEM FIO PRETO" },
         { "file": "N1SHOP-4.webp", "name": "CARTEIRA MASCULINA COURO ESTILO 100 DÓLARES" },
         { "file": "N1SHOP-5.webp", "name": "FONE PRO 4 TWS BLUETOOTH MINI SPORTS" },
         { "file": "N1SHOP-6.webp", "name": "RELÓGIO QUARTZO CRONÓGRAFO AÇO INOX MASCULINO" },
@@ -24,7 +24,7 @@
         { "file": "N1SHOP-15.webp", "name": "BOLSA CARTEIRA FEMININA DE MÃO COURO" },
         { "file": "N1SHOP-16.webp", "name": "CARTEIRA MASCULINA CURTA MODA JOVEM", "pinned": true  },
         { "file": "N1SHOP-17.webp", "name": "SUPORTE PRATELEIRA PORTA SHAMPOO CANTO/RETO" },
-        { "file": "N1SHOP-18.webp", "name": "FONE F9-5 SEM FIO BLUETOOTH V5.3", "pinned": true  },
+        { "file": "N1SHOP-18.webp", "name": "FONE F9-5 SEM FIO BLUETOOTH V5.3"},
         { "file": "N1SHOP-19.webp", "name": "FONE JIMMY EARBUDS BLUETOOTH CANCELAMENTO RUÍDO" },
         { "file": "N1SHOP-20.webp", "name": "KIT 16 PÇS CUTÍCULA AÇO INOX TO-YOUYI" },
         { "file": "N1SHOP-21.webp", "name": "TIARA MODA ALTA CLASSE COM CRISTAIS" }
