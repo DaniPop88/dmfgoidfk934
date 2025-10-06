@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "baseUrl": "https://cdn.jsdelivr.net/gh/popindi/qq8820img@9a8a4e4aa3edd8eea18d9f3ff0d1621bdbc5d97a/images/",
+  "baseUrl": "https://cdn.jsdelivr.net/gh/popindi/qq8820img@1cca6683fd8ebdc4162e21cee6a04c1ebe4a7f11/images/",
   "tiers": [
     {
       "id": "IFUSHDKS",
       "label": "PRESENTE ESPECIAL PARA VOCÊ!",
       "showFirst": 6,
       "items": [
-        { "file": "N1SHOP-3.webp", "name": "FONE E6S TWS BLUETOOTH SEM FIO PRETO", "pinned": true },
         { "file": "N1SHOP-1.webp", "name": "BOLSA TÉRMICA FEMININA GRANDE", "pinned": true  },
-        { "file": "N1SHOP-2.webp", "name": "GARRAFA TÉRMICA INOX 500ML COM TERMÔMETRO LED", "pinned": true },
-        { "file": "N1SHOP-4.webp", "name": "CARTEIRA MASCULINA COURO ESTILO 100 DÓLARES" },
+        { "file": "N1SHOP-3.webp", "name": "FONE E6S TWS BLUETOOTH SEM FIO PRETO", "pinned": true },
+        { "file": "N1SHOP-2.webp", "name": "GARRAFA TÉRMICA INOX 500ML COM TERMÔMETRO LED"},
+        { "file": "N1SHOP-4.webp", "name": "ORGANIZADOR DE MESA COELHO MULTIUSO PORTA TRECO", "pinned": true },
         { "file": "N1SHOP-5.webp", "name": "FONE PRO 4 TWS BLUETOOTH MINI SPORTS" },
         { "file": "N1SHOP-6.webp", "name": "RELÓGIO QUARTZO CRONÓGRAFO AÇO INOX MASCULINO" },
         { "file": "N1SHOP-7.webp", "name": "KIT CÍLIOS POSTIÇOS 8-16MM + PINÇAS" },
@@ -19,7 +19,7 @@
         { "file": "N1SHOP-10.webp", "name": "FITA LED USB RGB FLEXÍVEL" },
         { "file": "N1SHOP-11.webp", "name": "CONJUNTO COLAR 5 FLORES OURO COREANO" },
         { "file": "N1SHOP-12.webp", "name": "RELÓGIO FEMININO MINIMALISTA COURO", "pinned": true  },
-        { "file": "N1SHOP-13.webp", "name": "KIT PINCÉIS MAQUIAGEM 13 PEÇAS COM BOLSA", "pinned": true },
+        { "file": "N1SHOP-13.webp", "name": "KIT PINCÉIS MAQUIAGEM 13 PEÇAS COM BOLSA"},
         { "file": "N1SHOP-14.webp", "name": "UMIDIFICADOR DE AR LED CASA/ESCRITÓRIO" },
         { "file": "N1SHOP-15.webp", "name": "BOLSA CARTEIRA FEMININA DE MÃO COURO" },
         { "file": "N1SHOP-16.webp", "name": "CARTEIRA MASCULINA CURTA MODA JOVEM", "pinned": true  },
@@ -27,7 +27,13 @@
         { "file": "N1SHOP-18.webp", "name": "FONE F9-5 SEM FIO BLUETOOTH V5.3"},
         { "file": "N1SHOP-19.webp", "name": "FONE JIMMY EARBUDS BLUETOOTH CANCELAMENTO RUÍDO" },
         { "file": "N1SHOP-20.webp", "name": "KIT 16 PÇS CUTÍCULA AÇO INOX TO-YOUYI" },
-        { "file": "N1SHOP-21.webp", "name": "TIARA MODA ALTA CLASSE COM CRISTAIS" }
+        { "file": "N1SHOP-21.webp", "name": "TIARA MODA ALTA CLASSE COM CRISTAIS" },
+        { "file": "N1SHOP-22.webp", "name": "KIT GARRAFA MOTIVACIONAL ADESIVOS 300ML+900ML+2000ML" },
+        { "file": "N1SHOP-23.webp", "name": "KIT FERRAMENTAS 12 PEÇAS MALETA TITANIUM", "pinned": true },
+        { "file": "N1SHOP-24.webp", "name": "TRITURADOR PROCESSADOR DE ALIMENTOS 500ML" },
+        { "file": "N1SHOP-25.webp", "name": "CAPA DE BRAÇO CELULAR CORRIDA ACADEMIA" },
+        { "file": "N1SHOP-26.webp", "name": "FONE BLUETOOTH P47 HEADPHONE SEM FIO" },
+        { "file": "N1SHOP-27.webp", "name": "COMEDOURO BEBEDOURO ELEVADO CÃES E GATOS TAMPAS" }
       ]
     }
   ]
