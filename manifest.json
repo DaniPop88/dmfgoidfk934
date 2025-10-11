@@ -7,11 +7,11 @@
       "label": "PRESENTE ESPECIAL PARA VOCÊ!",
       "showFirst": 6,
       "items": [
+        { "file": "N1SHOP-1.webp", "name": "BOLSA TÉRMICA FEMININA GRANDE"},
         { "file": "N1SHOP-3.webp", "name": "FONE E6S TWS BLUETOOTH SEM FIO PRETO", "pinned": true },
-        { "file": "N1SHOP-1.webp", "name": "BOLSA TÉRMICA FEMININA GRANDE", "pinned": true  },
         { "file": "N1SHOP-2.webp", "name": "GARRAFA TÉRMICA INOX 500ML COM TERMÔMETRO LED"},
         { "file": "N1SHOP-4.webp", "name": "ORGANIZADOR DE MESA COELHO MULTIUSO PORTA TRECO", "pinned": true },
-        { "file": "N1SHOP-5.webp", "name": "FONE PRO 4 TWS BLUETOOTH MINI SPORTS" },
+        { "file": "N1SHOP-5.webp", "name": "FONE PRO 4 TWS BLUETOOTH MINI SPORTS", "pinned": true   },
         { "file": "N1SHOP-6.webp", "name": "KIT 10 POTES PLÁSTICOS MARMITA 500ML" },
         { "file": "N1SHOP-7.webp", "name": "CONJUNTO RELÓGIO FEMININO QUARTZ COM JOIA" },
         { "file": "N1SHOP-8.webp", "name": "KIT COLAR E BRINCO TREVO 4 FOLHAS MODA" },
@@ -35,7 +35,7 @@
         { "file": "N1SHOP-26.webp", "name": "FONE BLUETOOTH P47 HEADPHONE SEM FIO" },
         { "file": "N1SHOP-27.webp", "name": "COMEDOURO BEBEDOURO ELEVADO CÃES E GATOS TAMPAS" },
         { "file": "N1SHOP-28.webp", "name": "CARTEIRA SLIM COURO SINTÉTICO PRETA" },
-        { "file": "N1SHOP-29.webp", "name": "FONE DE OUVIDO SEM FIO E6S BLUETOOTH" },
+        { "file": "N1SHOP-29.webp", "name": "BLUETOOTH FONE DE OUVIDO SEM FIO SEM TELA" },
         { "file": "N1SHOP-30.webp", "name": "2 PULSEIRAS REPELENTES LED INFANTIL ANTI-MOSQUITO" }
       ]
     }
