@@ -7,12 +7,97 @@ const BACKEND_URL = "https://popn1shop.onrender.com";
 const MANIFEST_URL = window.REDEPOP_MANIFEST_URL || "./manifest.json";
 
 /* ========================================
+   PERFORMANCE OPTIMIZATION CONFIGS
+======================================== */
+const VALIDATION_DEBOUNCE_MS = 500; // Wait 500ms after user stops typing
+const VALIDATION_CACHE_DURATION_MS = 5 * 60 * 1000; // Cache for 5 minutes
+const REQUEST_TIMEOUT_MS = 10000; // 10 second timeout
+
+/* ========================================
    DYNAMIC CONFIGURATION
 ======================================== */
 // Dynamic color schemes - Fixed to POPN1 purple theme
 const COLOR_SCHEMES = [
   { primary: '#412573', secondary: '#140e26' }, // POPN1 Purple Theme
 ];
+
+/* ========================================
+   VALIDATION CACHE & PERFORMANCE
+======================================== */
+const validationCache = new Map();
+let validationDebounceTimer = null;
+let currentValidationController = null;
+
+// Cache management
+function getCachedValidation(productId, secretCode) {
+  const key = `${productId}:${secretCode}`;
+  const cached = validationCache.get(key);
+  
+  if (cached && (Date.now() - cached.timestamp < VALIDATION_CACHE_DURATION_MS)) {
+    return cached.result;
+  }
+  
+  return null;
+}
+
+function setCachedValidation(productId, secretCode, result) {
+  const key = `${productId}:${secretCode}`;
+  validationCache.set(key, {
+    result,
+    timestamp: Date.now()
+  });
+  
+  // Limit cache size
+  if (validationCache.size > 100) {
+    const firstKey = validationCache.keys().next().value;
+    validationCache.delete(firstKey);
+  }
+}
+
+// Optimized validation with debounce and cache
+async function validateSecretCode(productId, secretCode) {
+  // Check cache first
+  const cached = getCachedValidation(productId, secretCode);
+  if (cached) {
+    console.log('✅ Using cached validation result');
+    return cached;
+  }
+  
+  // Cancel any pending request
+  if (currentValidationController) {
+    currentValidationController.abort();
+  }
+  
+  // Create new abort controller
+  currentValidationController = new AbortController();
+  const signal = currentValidationController.signal;
+  
+  try {
+    // Race between fetch and timeout
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout')), REQUEST_TIMEOUT_MS)
+    );
+    
+    const fetchPromise = fetch(
+      `${BACKEND_URL}/validate?product_id=${encodeURIComponent(productId)}&secret_code=${encodeURIComponent(secretCode)}`,
+      { signal }
+    );
+    
+    const res = await Promise.race([fetchPromise, timeoutPromise]);
+    const result = await res.json();
+    
+    // Cache successful validation
+    setCachedValidation(productId, secretCode, result);
+    
+    return result;
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      console.log('❌ Request cancelled');
+      throw new Error('cancelled');
+    }
+    throw err;
+  }
+}
 
 /* ========================================
    UTILITY FUNCTIONS
@@ -193,8 +278,8 @@ async function loadCatalog() {
     
     // Simulate minimum loading time for smooth UX
     const [response] = await Promise.all([
-      fetch(MANIFEST_URL, { cache: 'no-cache' }),
-      new Promise(resolve => setTimeout(resolve, 1500)) // Minimum 1.5s loading
+      fetch(MANIFEST_URL, { cache: 'force-cache' }), // Use cache for faster loading
+      new Promise(resolve => setTimeout(resolve, 800)) // Reduced to 800ms
     ]);
     
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -202,9 +287,6 @@ async function loadCatalog() {
     const manifest = await response.json();
     const baseUrl = (manifest.baseUrl || '').trim();
     const tiers = Array.isArray(manifest.tiers) ? manifest.tiers : [];
-    
-    // JANGAN RANDOMIZE URUTAN TIER - PERTAHANKAN URUTAN ASLI
-    // Hanya randomize produk dalam setiap tier (dilakukan di buildTierSection)
     
     catalog.innerHTML = '';
     
@@ -226,8 +308,8 @@ async function loadCatalog() {
         loadingOverlay.classList.add('hidden');
         setTimeout(() => {
           loadingOverlay.style.display = 'none';
-        }, 500);
-      }, 500);
+        }, 300);
+      }, 300);
     }
     
   } catch (err) {
@@ -240,303 +322,228 @@ async function loadCatalog() {
         loadingOverlay.classList.add('hidden');
         setTimeout(() => {
           loadingOverlay.style.display = 'none';
-        }, 500);
-      }, 1000);
+        }, 300);
+      }, 300);
     }
   }
 }
 
 /* ========================================
-   ENHANCED INTERACTIONS
+   Handle Product Card Click
 ======================================== */
-// Klik product-card -> buka modal
-document.addEventListener('click', (e) => {
+document.addEventListener('click', e => {
   const card = e.target.closest('.product-card');
-  if (!card) return;
-  
-  // Add click animation
-  card.style.transform = 'scale(0.95)';
-  setTimeout(() => {
-    card.style.transform = '';
-  }, 150);
-
-  const nameEl = card.querySelector('.product-name');
-  const imgEl = card.querySelector('.product-img');
-  const name = nameEl ? nameEl.textContent.trim() : '';
-  const img = imgEl ? (imgEl.src || imgEl.dataset.src) : '';
-  const secret = card.getAttribute('data-secret') || '';
-
-  // Reset dulu supaya hidden input tidak ikut terhapus setelah diisi
-  orderForm.reset();
-  isCPFValid = false;
-  isSecretCodeValid = false;
-  orderFormMessage.textContent = '';
-  orderSubmitBtn.disabled = true;
-
-  // Bersihkan ikon/spinner secret code kalau ada
-  const scStatus = document.getElementById('secretCodeStatus');
-  if (scStatus) scStatus.innerHTML = '';
-
-  // Baru isi data produk + buka modal
-  updateOrderProductInfo(name, img, secret);
-  orderModal.classList.add('active');
-
-  // Re-apply aturan Game ID setelah reset
-  if (typeof applyGameIdRules === 'function') applyGameIdRules();
+  if (card && !card.hidden) {
+    const name = card.querySelector('.product-name').textContent;
+    const src = card.querySelector('.product-img').src || card.querySelector('.product-img').dataset.src;
+    const secret = card.dataset.secret;
+    updateOrderProductInfo(name, src, secret);
+    orderModal.classList.add('active');
+  }
 });
 
-// Klik tombol VEJA MAIS -> toggle produk extra
-document.addEventListener('click', (e) => {
+/* ========================================
+   Handle "Veja Mais" Click
+======================================== */
+document.addEventListener('click', e => {
   const btn = e.target.closest('.veja-mais-btn');
-  if (!btn) return;
-
-  const tier = btn.getAttribute('data-tier');
-  const section = document.querySelector(`section[data-tier="${tier}"]`);
-  if (!section) return;
-
-  const extraProducts = section.querySelectorAll('.extra-product');
-  const expanded = btn.classList.toggle('expanded');
-
-  const textSpan = btn.querySelector('.btn-text');
-  const arrowSpan = btn.querySelector('.arrow-icon');
-  if (textSpan && arrowSpan) {
-    textSpan.textContent = expanded ? "VER MENOS" : "VEJA MAIS";
-    arrowSpan.innerHTML = expanded ? '&#9650;' : '&#9660;';
-  }
-  
-  extraProducts.forEach((product, index) => {
-    if (expanded) {
-      product.hidden = false;
-      // FIX: Reset opacity dan transform supaya terlihat
-      product.style.opacity = '1';
-      product.style.transform = 'scale(1) translateY(0)';
-      product.style.animationDelay = `${index * 0.1}s`;
-      product.classList.add('fade-in');
+  if (btn) {
+    const tierId = btn.dataset.tier;
+    const grid = document.querySelector(`[data-tier="${tierId}"] .product-grid`);
+    const cards = grid.querySelectorAll('.product-card.extra-product');
+    
+    const allVisible = Array.from(cards).every(card => !card.hidden);
+    
+    if (allVisible) {
+      cards.forEach(card => { card.hidden = true; });
+      btn.querySelector('.btn-text').textContent = 'VEJA MAIS';
+      btn.querySelector('.arrow-icon').innerHTML = '&#9660;';
     } else {
-      product.hidden = true;
-      product.classList.remove('fade-in');
-      // Reset inline styles
-      product.style.opacity = '';
-      product.style.transform = '';
+      cards.forEach(card => { card.hidden = false; });
+      btn.querySelector('.btn-text').textContent = 'VEJA MENOS';
+      btn.querySelector('.arrow-icon').innerHTML = '&#9650;';
+    }
+  }
+});
+
+/* ========================================
+   Close Modal
+======================================== */
+if (orderModalCloseBtn) {
+  orderModalCloseBtn.addEventListener('click', () => {
+    orderModal.classList.remove('active');
+  });
+}
+if (orderModal) {
+  orderModal.addEventListener('click', e => {
+    if (e.target === orderModal) {
+      orderModal.classList.remove('active');
     }
   });
-});
-
-// Tutup modal
-if (orderModalCloseBtn) {
-  orderModalCloseBtn.addEventListener('click', () => orderModal.classList.remove('active'));
 }
 
 /* ========================================
    CPF Validation
 ======================================== */
-function validateCPF(cpf) {
-  cpf = cpf.replace(/[^\d]+/g,'');
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+let isCPFValid = false;
+
+function validateCPF(cpfStr) {
+  const cpf = cpfStr.replace(/\D/g, '');
+  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
   
-  let sum = 0, rest;
+  let sum = 0;
+  for (let i = 0; i < 9; i++) sum += parseInt(cpf[i]) * (10 - i);
+  let check1 = (sum * 10) % 11;
+  if (check1 === 10) check1 = 0;
+  if (check1 !== parseInt(cpf[9])) return false;
   
-  // Validasi digit pertama (posisi 10)
-  for (let i=1; i<=9; i++) sum += parseInt(cpf.substring(i-1,i)) * (11-i);
-  rest = sum % 11;
-  rest = (rest < 2) ? 0 : 11 - rest;
-  if (rest !== parseInt(cpf.substring(9,10))) return false;
-  
-  // Validasi digit kedua (posisi 11)
   sum = 0;
-  for (let i=1; i<=10; i++) sum += parseInt(cpf.substring(i-1,i)) * (12-i);
-  rest = sum % 11;
-  rest = (rest < 2) ? 0 : 11 - rest;
-  if (rest !== parseInt(cpf.substring(10,11))) return false;
+  for (let i = 0; i < 10; i++) sum += parseInt(cpf[i]) * (11 - i);
+  let check2 = (sum * 10) % 11;
+  if (check2 === 10) check2 = 0;
+  if (check2 !== parseInt(cpf[10])) return false;
   
   return true;
 }
 
-let isCPFValid = false, isSecretCodeValid = false;
-
-// Filter input agar hanya angka dan maksimal 11 digit
-const cpfInput = document.getElementById('cpf');
-if (cpfInput) {
-  cpfInput.addEventListener('input', function() {
-    // Hapus semua karakter kecuali angka
-    this.value = this.value.replace(/[^\d]/g, '');
-    // Batasi maksimal 11 digit
-    if (this.value.length > 11) {
-      this.value = this.value.slice(0, 11);
-    }
-  });
-}
-
 /* ========================================
-   Nama Completo Validation (Tidak boleh angka)
+   Platform and Game ID Validation
 ======================================== */
-const fullNameInput = document.getElementById('fullName');
-if (fullNameInput) {
-  fullNameInput.addEventListener('input', function() {
-    // Cek jika ada angka
-    if (/\d/.test(this.value)) {
-      this.setCustomValidity('Nome não pode conter números!');
-      this.style.borderColor = '#00ccff';
-      orderFormMessage.textContent = 'Nome não pode conter números!';
-      orderFormMessage.style.color = '#00ccff';
-    } else {
-      this.setCustomValidity('');
-      this.style.borderColor = '';
-      if (orderFormMessage.textContent === 'Nome não pode conter números!') {
-        orderFormMessage.textContent = '';
-        orderFormMessage.style.color = '';
-      }
-    }
-  });
-}
-
-/* ========================================
-   Game ID Validation dinamis (berdasarkan platform)
-======================================== */
-const RULE_GROUP_A = new Set(['POPBRA','POP888','POP678','POPPG','POP555','POPLUA','POPBEM','POPCEU']);
-const RULE_GROUP_B = new Set(['POPDEZ','POPWB','POPBOA','POPFLU','POPN1']);
-
-function getGameIdConfig() {
-  // ADD SAFETY CHECK
-  if (!platformSelect || !platformSelect.value) {
-    return { regex:/^\d{4,12}$/, min:4, max:12, msg:'Selecione a plataforma para validar o ID de Jogo' };
-  }
-  const platform = platformSelect.value;
-  if (RULE_GROUP_A.has(platform)) {
-    return { regex:/^\d{4,8}$/, min:4, max:8, msg:`ID de Jogo (${platform}) precisa 4-8 dígitos numéricos, sem espaço!` };
-  }
-  if (RULE_GROUP_B.has(platform)) {
-    return { regex:/^\d{9,12}$/, min:9, max:12, msg:`ID de Jogo (${platform}) precisa 9-12 dígitos numéricos, sem espaço!` };
-  }
-  return { regex:/^\d{4,12}$/, min:4, max:12, msg:'Selecione a plataforma para validar o ID de Jogo' };
-}
-
 function applyGameIdRules() {
-  // ADD SAFETY CHECK
-  if (!gameIdInput || !platformSelect) return;
+  if (!platformSelect || !gameIdInput) return;
   
-  const { min, max } = getGameIdConfig();
-  gameIdInput.setAttribute('minlength', String(min));
-  gameIdInput.setAttribute('maxlength', String(max));
-  gameIdInput.setAttribute('pattern', `\\d{${min},${max}}`);
-  gameIdInput.placeholder = `Digite ${min}-${max} dígitos numéricos`;
-  validateGameId();
+  const platform = platformSelect.value;
+  
+  if (platform === 'POPN1') {
+    gameIdInput.placeholder = 'Ex. 123456789012 (12 dígitos)';
+    gameIdInput.maxLength = 12;
+  } else {
+    gameIdInput.placeholder = 'Selecione a plataforma para ver o formato';
+    gameIdInput.maxLength = 12;
+  }
 }
 
 function validateGameId() {
-  // ADD SAFETY CHECK
-  if (!gameIdInput || !platformSelect) return;
+  if (!platformSelect || !gameIdInput) return false;
   
-  const { regex, msg } = getGameIdConfig();
-  const value = gameIdInput.value.trim();
-
-  if (!value) {
-    gameIdInput.setCustomValidity('');
-    gameIdInput.style.borderColor = '';
-    if (orderFormMessage.textContent.startsWith('ID de Jogo')) {
-      orderFormMessage.textContent = '';
-      orderFormMessage.style.color = '';
-    }
-    return;
+  const platform = platformSelect.value;
+  const gameId = gameIdInput.value.trim();
+  
+  if (platform === 'POPN1') {
+    return /^\d{12}$/.test(gameId);
   }
-
-  if (!/^\d+$/.test(value)) {
-    const m = 'ID de Jogo deve conter apenas números.';
-    gameIdInput.setCustomValidity(m);
-    gameIdInput.style.borderColor = '#00ccff';
-    orderFormMessage.textContent = m;
-    orderFormMessage.style.color = '#00ccff';
-    return;
-  }
-
-  if (!regex.test(value)) {
-    gameIdInput.setCustomValidity(msg);
-    gameIdInput.style.borderColor = '#00ccff';
-    orderFormMessage.textContent = msg;
-    orderFormMessage.style.color = '#00ccff';
-    return;
-  }
-
-  gameIdInput.setCustomValidity('');
-  gameIdInput.style.borderColor = '';
-  if (orderFormMessage.textContent === msg || orderFormMessage.textContent.startsWith('ID de Jogo')) {
-    orderFormMessage.textContent = '';
-    orderFormMessage.style.color = '';
-  }
+  
+  return false;
 }
 
 /* ========================================
-   Secret Code Validation
+   Secret Code Validation (OPTIMIZED)
 ======================================== */
+let isSecretCodeValid = false;
 const secretCodeInput = document.getElementById('secretCode');
 const secretCodeStatus = document.getElementById('secretCodeStatus');
 
 function showSpinner() {
   if (!secretCodeStatus) return;
   secretCodeStatus.innerHTML = `
-    <svg aria-label="Validando..." width="22" height="22" viewBox="0 0 50 50" role="img">
-      <circle cx="25" cy="25" r="20" fill="none" stroke="#00ccff" stroke-width="6" opacity="0.2"></circle>
-      <circle cx="25" cy="25" r="20" fill="none" stroke="#00ccff" stroke-width="6" stroke-linecap="round" stroke-dasharray="1,150" stroke-dashoffset="0">
-        <animate attributeName="stroke-dasharray" values="1,150;90,150;90,150" dur="1.4s" repeatCount="indefinite"></animate>
-        <animate attributeName="stroke-dashoffset" values="0;-35;-124" dur="1.4s" repeatCount="indefinite"></animate>
-        <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1.4s" repeatCount="indefinite"></animateTransform>
+    <svg viewBox="0 0 50 50" style="width:20px;height:20px;animation:spin 1s linear infinite">
+      <circle cx="25" cy="25" r="20" fill="none" stroke="#00ccff" stroke-width="4" stroke-dasharray="31.415 31.415" stroke-linecap="round">
       </circle>
     </svg>
   `;
 }
+
 function showCheck() {
   if (!secretCodeStatus) return;
   secretCodeStatus.innerHTML = `<ion-icon name="checkmark-circle" style="color:#28c650;font-size:1.6em"></ion-icon>`;
 }
+
 function showWarning() {
   if (!secretCodeStatus) return;
   secretCodeStatus.innerHTML = `<ion-icon name="warning" style="color:#00ccff;font-size:1.6em"></ion-icon>`;
 }
+
 function clearStatus() {
   if (!secretCodeStatus) return;
   secretCodeStatus.innerHTML = "";
 }
 
 if (secretCodeInput) {
-  secretCodeInput.addEventListener('input', async function () {
+  secretCodeInput.addEventListener('input', function () {
     const secretCode = this.value.trim();
     const productId = document.getElementById('orderProductId').value;
 
-    // Saat mulai mengetik/cek ulang, matikan valid state dulu
+    // Reset validation state immediately
     isSecretCodeValid = false;
     updateOrderSubmitBtn();
 
-    if (secretCode.length > 4 && productId) {
-      showSpinner();
-      orderFormMessage.textContent = 'Validando código...';
-      orderFormMessage.style.color = '#fff';
+    // Clear any existing debounce timer
+    if (validationDebounceTimer) {
+      clearTimeout(validationDebounceTimer);
+    }
 
+    // Clear status and message if input is too short
+    if (secretCode.length <= 4) {
+      isSecretCodeValid = false;
+      orderFormMessage.textContent = '';
+      clearStatus();
+      updateOrderSubmitBtn();
+      return;
+    }
+
+    if (!productId) {
+      orderFormMessage.textContent = 'Selecione um produto primeiro';
+      orderFormMessage.style.color = '#00ccff';
+      clearStatus();
+      return;
+    }
+
+    // Show instant feedback that we're preparing to validate
+    orderFormMessage.textContent = 'Preparando validação...';
+    orderFormMessage.style.color = '#fff';
+    showSpinner();
+
+    // Debounce the validation
+    validationDebounceTimer = setTimeout(async () => {
+      orderFormMessage.textContent = 'Validando código...';
+      
       try {
-        const res = await fetch(`${BACKEND_URL}/validate?product_id=${encodeURIComponent(productId)}&secret_code=${encodeURIComponent(secretCode)}`);
-        const result = await res.json();
+        const result = await validateSecretCode(productId, secretCode);
+        
         if (result.status === "valid") {
           isSecretCodeValid = true;
-          orderFormMessage.textContent = 'Código válido! Você pode enviar.';
+          orderFormMessage.textContent = '✓ Código válido! Você pode enviar.';
           orderFormMessage.style.color = '#28c650';
           showCheck();
+        } else if (result.status === "used") {
+          isSecretCodeValid = false;
+          orderFormMessage.textContent = '⚠️ Código já foi utilizado!';
+          orderFormMessage.style.color = '#00ccff';
+          showWarning();
         } else {
           isSecretCodeValid = false;
-          orderFormMessage.textContent = 'Código inválido ou já utilizado!';
+          orderFormMessage.textContent = '✗ Código inválido!';
           orderFormMessage.style.color = '#00ccff';
           showWarning();
         }
       } catch (err) {
+        if (err.message === 'cancelled') {
+          // Request was cancelled, do nothing
+          return;
+        }
+        
         isSecretCodeValid = false;
-        orderFormMessage.textContent = 'Erro ao validar código!';
+        if (err.message === 'Timeout') {
+          orderFormMessage.textContent = '⏱️ Conexão lenta. Tente novamente.';
+        } else {
+          orderFormMessage.textContent = '❌ Erro ao validar. Tente novamente.';
+        }
         orderFormMessage.style.color = '#00ccff';
         showWarning();
       }
-    } else {
-      isSecretCodeValid = false;
-      orderFormMessage.textContent = '';
-      clearStatus();
-    }
-    updateOrderSubmitBtn();
+      
+      updateOrderSubmitBtn();
+    }, VALIDATION_DEBOUNCE_MS);
   });
 }
 
@@ -557,7 +564,8 @@ if (orderForm) {
     }
 
     orderSubmitBtn.disabled = true;
-    orderFormMessage.textContent = 'Enviando...';
+    orderFormMessage.textContent = 'Enviando pedido...';
+    orderFormMessage.style.color = '#fff';
 
     const productName = document.getElementById('orderProductName').textContent.trim();
     const productImg = document.getElementById('orderProductImg').src;
@@ -588,22 +596,36 @@ if (orderForm) {
     };
 
     try {
+      // Add timeout to order submission
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
       const response = await fetch(`${BACKEND_URL}/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        signal: controller.signal
       });
       
+      clearTimeout(timeout);
       const result = await response.json();
       
       if (result.status === 'success') {
-        orderFormMessage.textContent = 'Pedido enviado com sucesso! Entraremos em contato em breve.';
+        orderFormMessage.textContent = '✓ Pedido enviado com sucesso! Entraremos em contato em breve.';
         orderFormMessage.style.color = '#28c650';
+        
+        // Clear cache for this code since it's now used
+        const cachedKey = `${data.productId}:${data.secretCode}`;
+        validationCache.delete(cachedKey);
+        
         setTimeout(() => {
           orderModal.classList.remove('active');
           orderForm.reset();
           orderSubmitBtn.disabled = true;
           orderFormMessage.textContent = '';
+          isSecretCodeValid = false;
+          isCPFValid = false;
+          clearStatus();
         }, 2500);
       } else {
         orderFormMessage.textContent = result.message || 'Erro ao enviar pedido. Tente novamente.';
@@ -612,7 +634,11 @@ if (orderForm) {
       }
     } catch (err) {
       console.error('Erro ao enviar pedido:', err);
-      orderFormMessage.textContent = 'Erro ao enviar. Verifique sua conexão.';
+      if (err.name === 'AbortError') {
+        orderFormMessage.textContent = '⏱️ Tempo esgotado. Verifique sua conexão e tente novamente.';
+      } else {
+        orderFormMessage.textContent = '❌ Erro ao enviar. Verifique sua conexão.';
+      }
       orderFormMessage.style.color = '#00ccff';
       orderSubmitBtn.disabled = false;
     }
@@ -703,21 +729,3 @@ criticalImages.forEach(src => {
   const img = new Image();
   img.src = src;
 });
-
-// Tambahkan retry logic dalam loadCatalog()
-const maxRetries = 3;
-let retryCount = 0;
-
-async function fetchWithRetry(url, options) {
-  while (retryCount < maxRetries) {
-    try {
-      const response = await fetch(url, options);
-      if (response.ok) return response;
-      throw new Error(`HTTP ${response.status}`);
-    } catch (error) {
-      retryCount++;
-      if (retryCount === maxRetries) throw error;
-      await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-    }
-  }
-}
