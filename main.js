@@ -182,7 +182,7 @@ function buildProductCard({ src, name, secret, isExtra, isFeatured }, index) {
   }
   
   const img = el('img', 'product-img', { 
-    'src': src,  // ← Langsung pakai src, bukan data-src
+    'src': src,
     alt: name
   });
   
@@ -244,7 +244,7 @@ function buildTierSection(tier, baseUrl) {
 }
 
 /* ========================================
-   ENHANCED CATALOG LOADING
+   ENHANCED CATALOG LOADING - OPTIMIZED
 ======================================== */
 async function loadCatalog() {
   try {
@@ -256,7 +256,7 @@ async function loadCatalog() {
     
     const [response] = await Promise.all([
       fetch(MANIFEST_URL, { cache: 'force-cache' }),
-      new Promise(resolve => setTimeout(resolve, 800))
+      new Promise(resolve => setTimeout(resolve, 200))
     ]);
     
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -277,10 +277,8 @@ async function loadCatalog() {
     if (loadingOverlay) {
       setTimeout(() => {
         loadingOverlay.classList.add('hidden');
-        setTimeout(() => {
-          loadingOverlay.style.display = 'none';
-        }, 300);
-      }, 300);
+        loadingOverlay.style.display = 'none';
+      }, 100);
     }
     
   } catch (err) {
@@ -290,10 +288,8 @@ async function loadCatalog() {
     if (loadingOverlay) {
       setTimeout(() => {
         loadingOverlay.classList.add('hidden');
-        setTimeout(() => {
-          loadingOverlay.style.display = 'none';
-        }, 300);
-      }, 300);
+        loadingOverlay.style.display = 'none';
+      }, 100);
     }
   }
 }
@@ -576,7 +572,6 @@ if (orderForm) {
         const cachedKey = `${data.productId}:${data.secretCode}`;
         validationCache.delete(cachedKey);
         
-        // Build confirmation URL
         const confirmUrl = new URL('confirmation.html', window.location.href);
         confirmUrl.searchParams.set('productImg', data.productImg);
         confirmUrl.searchParams.set('productName', data.productName);
@@ -593,7 +588,6 @@ if (orderForm) {
         confirmUrl.searchParams.set('state', data.state);
         confirmUrl.searchParams.set('zip', data.zip);
         
-        // Redirect
         window.location.href = confirmUrl.toString();
       } else {
         orderFormMessage.textContent = result.message || 'Erro ao enviar pedido. Tente novamente.';
