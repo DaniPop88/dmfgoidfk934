@@ -3,7 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  
+  <!-- ✅ SEO META DESCRIPTION -->
+  <meta name="description" content="POPVAI - Plataforma com os maiores bônus do Brasil! Ganhe prêmios especiais, produtos exclusivos e recompensas incríveis. Porque onde há gratidão, há generosidade.">
+  
   <title>POPVAI - PRÊMIOS</title>
+  
+  <!-- ✅ PRELOAD CRITICAL CSS -->
+  <link rel="preload" href="style.css" as="style">
+  
+  <!-- ✅ PRECONNECT TO CDNs - REDUCE DNS LOOKUP TIME -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://i.ibb.co" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://i.ibb.co">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  
+  <!-- ✅ PRELOAD CRITICAL IMAGES - IMPROVE LCP -->
+  <link rel="preload" href="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" as="image" fetchpriority="high">
+  <link rel="preload" href="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" as="image" fetchpriority="high">
+  
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="https://i.ibb.co/BKdsNcw0/Favicon.png" type="image/x-icon">
 </head>
@@ -12,7 +32,7 @@
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
       <div class="loading-cart">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
           <path d="M9 2L7.17 4H4C2.9 4 2 4.9 2 6V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V6C22 4.9 21.1 4 20 4H16.83L15 2H9ZM9 4H15L16.83 6H20V19H4V6H7.17L9 4Z" fill="white"/>
           <circle cx="9" cy="18" r="2" fill="white"/>
           <circle cx="17" cy="18" r="2" fill="white"/>
@@ -50,11 +70,23 @@
     <div class="mentor-contact-title">CONTATE O MENTOR PARA OBTER PRÊMIO</div>
     <div class="mentor-contact-btn-row">
       <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-        <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
+        <!-- ✅ OPTIMIZED: fetchpriority + dimensions -->
+        <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
+             alt="WhatsApp" 
+             class="mentor-contact-icon"
+             fetchpriority="high"
+             width="24"
+             height="24" />
         <span>WHATSAPP</span>
       </a>
       <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-        <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
+        <!-- ✅ OPTIMIZED: fetchpriority + dimensions -->
+        <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
+             alt="Telegram" 
+             class="mentor-contact-icon"
+             fetchpriority="high"
+             width="24"
+             height="24" />
         <span>TELEGRAM</span>
       </a>
     </div>
@@ -74,11 +106,23 @@
       <div class="mentor-contact-title">CONTATE O MENTOR PARA OBTER PRÊMIO</div>
       <div class="mentor-contact-btn-row">
         <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-          <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
+          <!-- ✅ OPTIMIZED: dimensions for CLS -->
+          <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
+               alt="WhatsApp" 
+               class="mentor-contact-icon"
+               width="24"
+               height="24"
+               loading="lazy" />
           <span>WHATSAPP</span>
         </a>
         <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-          <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
+          <!-- ✅ OPTIMIZED: dimensions for CLS -->
+          <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
+               alt="Telegram" 
+               class="mentor-contact-icon"
+               width="24"
+               height="24"
+               loading="lazy" />
           <span>TELEGRAM</span>
         </a>
       </div>
@@ -105,7 +149,14 @@
       <button class="modal-close-btn" id="orderModalCloseBtn">&times;</button>
       <h3 class="modal-title">REIVINDIQUE SEU PRÊMIO!!</h3>
       <div class="order-product-info-centered">
-        <img id="orderProductImg" src="..." alt="" class="modal-product-img" />
+        <!-- ✅ OPTIMIZED: dimensions for modal image -->
+        <img id="orderProductImg" 
+             src="..." 
+             alt="" 
+             class="modal-product-img"
+             width="250"
+             height="250"
+             loading="lazy" />
         <div id="orderProductName" class="modal-product-title"></div>
       </div>
       <form id="orderForm">
@@ -224,11 +275,23 @@
           <div class="mentor-contact-title">Não tem Código Secreto? Encontre um mentor</div>
           <div class="mentor-contact-btn-row">
             <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-              <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
+              <!-- ✅ OPTIMIZED: dimensions for modal images -->
+              <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
+                   alt="WhatsApp" 
+                   class="mentor-contact-icon"
+                   width="24"
+                   height="24"
+                   loading="lazy" />
               <span>WHATSAPP</span>
             </a>
             <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-              <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
+              <!-- ✅ OPTIMIZED: dimensions for modal images -->
+              <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
+                   alt="Telegram" 
+                   class="mentor-contact-icon"
+                   width="24"
+                   height="24"
+                   loading="lazy" />
               <span>TELEGRAM</span>
             </a>
           </div>
