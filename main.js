@@ -3,22 +3,22 @@
 /* ========================================
    KONFIG
 ======================================== */
-const BACKEND_URL = "https://popn1shop.onrender.com";
+const BACKEND_URL = "https://redepop-backend.onrender.com";
 const MANIFEST_URL = window.REDEPOP_MANIFEST_URL || "./manifest.json";
 
 /* ========================================
    PERFORMANCE OPTIMIZATION CONFIGS
 ======================================== */
-const VALIDATION_DEBOUNCE_MS = 500; // Wait 500ms after user stops typing
-const VALIDATION_CACHE_DURATION_MS = 5 * 60 * 1000; // Cache for 5 minutes
-const REQUEST_TIMEOUT_MS = 10000; // 10 second timeout
+const VALIDATION_DEBOUNCE_MS = 500;
+const VALIDATION_CACHE_DURATION_MS = 5 * 60 * 1000;
+const REQUEST_TIMEOUT_MS = 10000;
 
 /* ========================================
    DYNAMIC CONFIGURATION
 ======================================== */
-// Dynamic color schemes - Fixed to POPN1 purple theme
+// Dynamic color schemes - PopVai original colors
 const COLOR_SCHEMES = [
-  { primary: '#412573', secondary: '#140e26' }, // POPN1 Purple Theme
+  { primary: '#8B5CF6', secondary: '#6D28D9' }, // PopVai Purple Theme
 ];
 
 /* ========================================
@@ -28,7 +28,6 @@ const validationCache = new Map();
 let validationDebounceTimer = null;
 let currentValidationController = null;
 
-// Cache management
 function getCachedValidation(productId, secretCode) {
   const key = `${productId}:${secretCode}`;
   const cached = validationCache.get(key);
@@ -47,33 +46,27 @@ function setCachedValidation(productId, secretCode, result) {
     timestamp: Date.now()
   });
   
-  // Limit cache size
   if (validationCache.size > 100) {
     const firstKey = validationCache.keys().next().value;
     validationCache.delete(firstKey);
   }
 }
 
-// Optimized validation with debounce and cache
 async function validateSecretCode(productId, secretCode) {
-  // Check cache first
   const cached = getCachedValidation(productId, secretCode);
   if (cached) {
     console.log('✅ Using cached validation result');
     return cached;
   }
   
-  // Cancel any pending request
   if (currentValidationController) {
     currentValidationController.abort();
   }
   
-  // Create new abort controller
   currentValidationController = new AbortController();
   const signal = currentValidationController.signal;
   
   try {
-    // Race between fetch and timeout
     const timeoutPromise = new Promise((_, reject) => 
       setTimeout(() => reject(new Error('Timeout')), REQUEST_TIMEOUT_MS)
     );
@@ -86,7 +79,6 @@ async function validateSecretCode(productId, secretCode) {
     const res = await Promise.race([fetchPromise, timeoutPromise]);
     const result = await res.json();
     
-    // Cache successful validation
     setCachedValidation(productId, secretCode, result);
     
     return result;
@@ -112,11 +104,11 @@ function shuffleArray(array) {
 }
 
 function setRandomColorScheme() {
-  // Always use the POPN1 purple theme
-  document.documentElement.style.setProperty('--dynamic-primary', '#412573');
-  document.documentElement.style.setProperty('--dynamic-secondary', '#140e26');
+  // PopVai original purple theme
+  document.documentElement.style.setProperty('--dynamic-primary', '#8B5CF6');
+  document.documentElement.style.setProperty('--dynamic-secondary', '#6D28D9');
   document.documentElement.style.setProperty('--dynamic-gradient', 
-    `linear-gradient(135deg, #412573, #140e26)`);
+    `linear-gradient(135deg, #8B5CF6, #6D28D9)`);
 }
 
 function createIntersectionObserver() {
@@ -152,7 +144,6 @@ const orderFormMessage = document.getElementById('orderFormMessage');
 const catalog = document.getElementById('catalog');
 const loadingOverlay = document.getElementById('loadingOverlay');
 
-// Initialized after DOM ready
 let platformSelect;
 let gameIdInput;
 
@@ -183,16 +174,13 @@ function buildProductCard({ src, name, secret, isExtra, isFeatured }, index) {
   const cardClass = `product-card${isExtra ? ' extra-product' : ''}${isFeatured ? ' featured' : ''}`;
   const card = el('div', cardClass, { 'data-secret': secret });
   
-  // Add animation delay
   card.style.animationDelay = `${index * 0.1}s`;
   
-  // Featured badge
   if (isFeatured) {
     const badge = el('div', 'featured-badge', { text: '⭐' });
     card.appendChild(badge);
   }
   
-  // Lazy loading image
   const img = el('img', 'product-img', { 
     'data-src': src, 
     alt: name,
@@ -212,7 +200,6 @@ function buildProductCard({ src, name, secret, isExtra, isFeatured }, index) {
 function buildTierSection(tier, baseUrl) {
   const section = el('section', 'reward-tier', { 'data-tier': tier.id });
   
-  // Animation delay for tiers
   const tierIndex = parseInt(tier.id.split('-')[1]) || 1;
   section.style.animationDelay = `${tierIndex * 0.2}s`;
   
@@ -225,17 +212,11 @@ function buildTierSection(tier, baseUrl) {
   const showFirst = Number.isInteger(tier.showFirst) ? tier.showFirst : 6;
   let items = Array.isArray(tier.items) ? tier.items : [];
 
-  // === NEW PINNED LOGIC ===
-  // 1. Preserve the order of pinned items exactly as they appear in the manifest
   const pinned = items.filter(it => it.pinned);
-  // 2. Randomize only the non-pinned items
   let others = items.filter(it => !it.pinned);
   others = shuffleArray(others);
-  // 3. Recombine: pinned first, then randomized others
   items = [...pinned, ...others];
-  // ========================
 
-  // Select random featured products (1–2 among the VISIBLE (non-extra) group)
   const visibleCount = Math.min(showFirst, items.length);
   const featuredCount = Math.floor(Math.random() * 2) + 1;
   const featuredIndices = new Set();
@@ -268,18 +249,15 @@ function buildTierSection(tier, baseUrl) {
 ======================================== */
 async function loadCatalog() {
   try {
-    // Always use POPN1 purple theme
     setRandomColorScheme();
     
-    // Show loading
     if (loadingOverlay) {
       loadingOverlay.style.display = 'flex';
     }
     
-    // Simulate minimum loading time for smooth UX
     const [response] = await Promise.all([
-      fetch(MANIFEST_URL, { cache: 'force-cache' }), // Use cache for faster loading
-      new Promise(resolve => setTimeout(resolve, 800)) // Reduced to 800ms
+      fetch(MANIFEST_URL, { cache: 'force-cache' }),
+      new Promise(resolve => setTimeout(resolve, 800))
     ]);
     
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -290,19 +268,16 @@ async function loadCatalog() {
     
     catalog.innerHTML = '';
     
-    // Create intersection observer for lazy loading
     const imageObserver = createIntersectionObserver();
     
     tiers.forEach(tier => {
       const tierSection = buildTierSection(tier, baseUrl);
       catalog.appendChild(tierSection);
       
-      // Setup lazy loading for images in this tier
       const images = tierSection.querySelectorAll('.product-img[data-src]');
       images.forEach(img => imageObserver.observe(img));
     });
     
-    // Hide loading overlay
     if (loadingOverlay) {
       setTimeout(() => {
         loadingOverlay.classList.add('hidden');
@@ -314,9 +289,8 @@ async function loadCatalog() {
     
   } catch (err) {
     console.error('Gagal memuat manifest:', err);
-    catalog.innerHTML = '<p style="color:#00ccff;text-align:center;padding:20px;">Falha ao carregar catálogo. Tente novamente mais tarde.</p>';
+    catalog.innerHTML = '<p style="color:#8B5CF6;text-align:center;padding:20px;">Falha ao carregar catálogo. Tente novamente mais tarde.</p>';
     
-    // Hide loading overlay even on error
     if (loadingOverlay) {
       setTimeout(() => {
         loadingOverlay.classList.add('hidden');
@@ -447,7 +421,7 @@ function showSpinner() {
   if (!secretCodeStatus) return;
   secretCodeStatus.innerHTML = `
     <svg viewBox="0 0 50 50" style="width:20px;height:20px;animation:spin 1s linear infinite">
-      <circle cx="25" cy="25" r="20" fill="none" stroke="#00ccff" stroke-width="4" stroke-dasharray="31.415 31.415" stroke-linecap="round">
+      <circle cx="25" cy="25" r="20" fill="none" stroke="#8B5CF6" stroke-width="4" stroke-dasharray="31.415 31.415" stroke-linecap="round">
       </circle>
     </svg>
   `;
@@ -460,7 +434,7 @@ function showCheck() {
 
 function showWarning() {
   if (!secretCodeStatus) return;
-  secretCodeStatus.innerHTML = `<ion-icon name="warning" style="color:#00ccff;font-size:1.6em"></ion-icon>`;
+  secretCodeStatus.innerHTML = `<ion-icon name="warning" style="color:#F59E0B;font-size:1.6em"></ion-icon>`;
 }
 
 function clearStatus() {
@@ -473,16 +447,13 @@ if (secretCodeInput) {
     const secretCode = this.value.trim();
     const productId = document.getElementById('orderProductId').value;
 
-    // Reset validation state immediately
     isSecretCodeValid = false;
     updateOrderSubmitBtn();
 
-    // Clear any existing debounce timer
     if (validationDebounceTimer) {
       clearTimeout(validationDebounceTimer);
     }
 
-    // Clear status and message if input is too short
     if (secretCode.length <= 4) {
       isSecretCodeValid = false;
       orderFormMessage.textContent = '';
@@ -493,17 +464,15 @@ if (secretCodeInput) {
 
     if (!productId) {
       orderFormMessage.textContent = 'Selecione um produto primeiro';
-      orderFormMessage.style.color = '#00ccff';
+      orderFormMessage.style.color = '#F59E0B';
       clearStatus();
       return;
     }
 
-    // Show instant feedback that we're preparing to validate
     orderFormMessage.textContent = 'Preparando validação...';
-    orderFormMessage.style.color = '#fff';
+    orderFormMessage.style.color = '#2D1B4E';
     showSpinner();
 
-    // Debounce the validation
     validationDebounceTimer = setTimeout(async () => {
       orderFormMessage.textContent = 'Validando código...';
       
@@ -518,17 +487,16 @@ if (secretCodeInput) {
         } else if (result.status === "used") {
           isSecretCodeValid = false;
           orderFormMessage.textContent = '⚠️ Código já foi utilizado!';
-          orderFormMessage.style.color = '#00ccff';
+          orderFormMessage.style.color = '#F59E0B';
           showWarning();
         } else {
           isSecretCodeValid = false;
           orderFormMessage.textContent = '✗ Código inválido!';
-          orderFormMessage.style.color = '#00ccff';
+          orderFormMessage.style.color = '#F59E0B';
           showWarning();
         }
       } catch (err) {
         if (err.message === 'cancelled') {
-          // Request was cancelled, do nothing
           return;
         }
         
@@ -538,7 +506,7 @@ if (secretCodeInput) {
         } else {
           orderFormMessage.textContent = '❌ Erro ao validar. Tente novamente.';
         }
-        orderFormMessage.style.color = '#00ccff';
+        orderFormMessage.style.color = '#F59E0B';
         showWarning();
       }
       
@@ -554,24 +522,23 @@ if (orderForm) {
   orderForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Validasi terakhir sebelum kirim
     if (!orderForm.checkValidity() || !isCPFValid || !isSecretCodeValid) {
       orderForm.reportValidity();
       orderFormMessage.textContent = 'Verifique os campos e tente novamente.';
-      orderFormMessage.style.color = '#00ccff';
+      orderFormMessage.style.color = '#F59E0B';
       orderSubmitBtn.disabled = false;
       return;
     }
 
     orderSubmitBtn.disabled = true;
     orderFormMessage.textContent = 'Enviando pedido...';
-    orderFormMessage.style.color = '#fff';
+    orderFormMessage.style.color = '#2D1B4E';
 
     const productName = document.getElementById('orderProductName').textContent.trim();
     const productImg = document.getElementById('orderProductImg').src;
     if (!productName) {
       orderFormMessage.textContent = "Erro: Produto não detectado.";
-      orderFormMessage.style.color = "#00ccff";
+      orderFormMessage.style.color = "#F59E0B";
       orderSubmitBtn.disabled = false;
       return;
     }
@@ -596,9 +563,8 @@ if (orderForm) {
     };
 
     try {
-      // Add timeout to order submission
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      const timeout = setTimeout(() => controller.abort(), 30000);
       
       const response = await fetch(`${BACKEND_URL}/order`, {
         method: 'POST',
@@ -611,25 +577,31 @@ if (orderForm) {
       const result = await response.json();
       
       if (result.status === 'success') {
-        orderFormMessage.textContent = '✓ Pedido enviado com sucesso! Entraremos em contato em breve.';
-        orderFormMessage.style.color = '#28c650';
-        
-        // Clear cache for this code since it's now used
         const cachedKey = `${data.productId}:${data.secretCode}`;
         validationCache.delete(cachedKey);
         
-        setTimeout(() => {
-          orderModal.classList.remove('active');
-          orderForm.reset();
-          orderSubmitBtn.disabled = true;
-          orderFormMessage.textContent = '';
-          isSecretCodeValid = false;
-          isCPFValid = false;
-          clearStatus();
-        }, 2500);
+        // Build confirmation URL
+        const confirmUrl = new URL('confirmation.html', window.location.href);
+        confirmUrl.searchParams.set('productImg', data.productImg);
+        confirmUrl.searchParams.set('productName', data.productName);
+        confirmUrl.searchParams.set('secretCode', data.secretCode);
+        confirmUrl.searchParams.set('fullName', data.fullName);
+        confirmUrl.searchParams.set('cpf', data.cpf);
+        confirmUrl.searchParams.set('phone', data.phone);
+        confirmUrl.searchParams.set('platform', data.platform);
+        confirmUrl.searchParams.set('gameId', data.gameId);
+        confirmUrl.searchParams.set('street', data.street);
+        confirmUrl.searchParams.set('number', data.number);
+        confirmUrl.searchParams.set('neighborhood', data.neighborhood);
+        confirmUrl.searchParams.set('city', data.city);
+        confirmUrl.searchParams.set('state', data.state);
+        confirmUrl.searchParams.set('zip', data.zip);
+        
+        // Redirect
+        window.location.href = confirmUrl.toString();
       } else {
         orderFormMessage.textContent = result.message || 'Erro ao enviar pedido. Tente novamente.';
-        orderFormMessage.style.color = '#00ccff';
+        orderFormMessage.style.color = '#F59E0B';
         orderSubmitBtn.disabled = false;
       }
     } catch (err) {
@@ -639,7 +611,7 @@ if (orderForm) {
       } else {
         orderFormMessage.textContent = '❌ Erro ao enviar. Verifique sua conexão.';
       }
-      orderFormMessage.style.color = '#00ccff';
+      orderFormMessage.style.color = '#F59E0B';
       orderSubmitBtn.disabled = false;
     }
   });
@@ -658,14 +630,13 @@ document.addEventListener('DOMContentLoaded', () => {
   platformSelect = document.getElementById('platform');
   gameIdInput = document.getElementById('gameId');
 
-  // Setup CPF validation
   const cpfInput = document.getElementById('cpf');
   if (cpfInput) {
     function validateAndUpdateCPF() {
       if (!validateCPF(cpfInput.value)) {
         isCPFValid = false;
         orderFormMessage.textContent = 'CPF inválido!';
-        orderFormMessage.style.color = '#00ccff';
+        orderFormMessage.style.color = '#F59E0B';
       } else {
         isCPFValid = true;
         if (orderFormMessage.textContent === 'CPF inválido!') {
@@ -680,7 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cpfInput.addEventListener('input', validateAndUpdateCPF);
   }
 
-  // Setup platform and game ID validation
   if (platformSelect) {
     platformSelect.addEventListener('change', () => {
       applyGameIdRules();
@@ -695,20 +665,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initialize game ID rules
   applyGameIdRules();
-  
-  // Load catalog
   loadCatalog();
 });
 
 /* ========================================
    PERFORMANCE OPTIMIZATIONS
 ======================================== */
-// Throttle scroll events for better performance
 let ticking = false;
 function updateOnScroll() {
-  // Add any scroll-based animations here
   ticking = false;
 }
 
@@ -719,7 +684,6 @@ document.addEventListener('scroll', () => {
   }
 });
 
-// Preload critical images
 const criticalImages = [
   'https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif',
   'https://i.ibb.co/s9x87GHJ/Telegram-logo.gif'
