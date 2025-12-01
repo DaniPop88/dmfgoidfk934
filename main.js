@@ -182,9 +182,8 @@ function buildProductCard({ src, name, secret, isExtra, isFeatured }, index) {
   }
   
   const img = el('img', 'product-img', { 
-    'data-src': src, 
-    alt: name,
-    loading: 'lazy'
+    'src': src,  // ← Langsung pakai src, bukan data-src
+    alt: name
   });
   
   const title = el('div', 'product-name', { text: name });
@@ -268,14 +267,11 @@ async function loadCatalog() {
     
     catalog.innerHTML = '';
     
-    const imageObserver = createIntersectionObserver();
-    
     tiers.forEach(tier => {
       const tierSection = buildTierSection(tier, baseUrl);
       catalog.appendChild(tierSection);
       
       const images = tierSection.querySelectorAll('.product-img[data-src]');
-      images.forEach(img => imageObserver.observe(img));
     });
     
     if (loadingOverlay) {
