@@ -3,27 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  
-  <!-- ✅ SEO META DESCRIPTION -->
-  <meta name="description" content="POPVAI - Plataforma com os maiores bônus do Brasil! Ganhe prêmios especiais, produtos exclusivos e recompensas incríveis. Porque onde há gratidão, há generosidade.">
-  
   <title>POPVAI - PRÊMIOS</title>
-  
-  <!-- ✅ PRELOAD CRITICAL CSS -->
-  <link rel="preload" href="style.css" as="style">
-  
-  <!-- ✅ PRECONNECT TO CDNs - REDUCE DNS LOOKUP TIME -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://i.ibb.co" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-  <link rel="dns-prefetch" href="https://i.ibb.co">
-  <link rel="dns-prefetch" href="https://unpkg.com">
-  
-  <!-- ✅ PRELOAD CRITICAL IMAGES - IMPROVE LCP -->
-  <link rel="preload" href="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" as="image" fetchpriority="high">
-  <link rel="preload" href="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" as="image" fetchpriority="high">
-  
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="https://i.ibb.co/BKdsNcw0/Favicon.png" type="image/x-icon">
 </head>
@@ -32,7 +12,7 @@
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
       <div class="loading-cart">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9 2L7.17 4H4C2.9 4 2 4.9 2 6V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V6C22 4.9 21.1 4 20 4H16.83L15 2H9ZM9 4H15L16.83 6H20V19H4V6H7.17L9 4Z" fill="white"/>
           <circle cx="9" cy="18" r="2" fill="white"/>
           <circle cx="17" cy="18" r="2" fill="white"/>
@@ -69,24 +49,12 @@
   <div class="mentor-contact-section">
     <div class="mentor-contact-title">CONTATE O MENTOR PARA OBTER PRÊMIO</div>
     <div class="mentor-contact-btn-row">
-      <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-        <!-- ✅ OPTIMIZED: fetchpriority + dimensions -->
-        <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
-             alt="WhatsApp" 
-             class="mentor-contact-icon"
-             fetchpriority="high"
-             width="24"
-             height="24" />
+      <a href="https://n1.popn1.website/" target="_blank" class="mentor-contact-btn whatsapp-btn">
+        <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
         <span>WHATSAPP</span>
       </a>
-      <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-        <!-- ✅ OPTIMIZED: fetchpriority + dimensions -->
-        <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
-             alt="Telegram" 
-             class="mentor-contact-icon"
-             fetchpriority="high"
-             width="24"
-             height="24" />
+      <a href="https://n1.popn1.website/tg" target="_blank" class="mentor-contact-btn telegram-btn">
+        <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
         <span>TELEGRAM</span>
       </a>
     </div>
@@ -105,24 +73,12 @@
     <div class="mentor-contact-section">
       <div class="mentor-contact-title">CONTATE O MENTOR PARA OBTER PRÊMIO</div>
       <div class="mentor-contact-btn-row">
-        <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-          <!-- ✅ OPTIMIZED: dimensions for CLS -->
-          <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
-               alt="WhatsApp" 
-               class="mentor-contact-icon"
-               width="24"
-               height="24"
-               loading="lazy" />
+        <a href="https://n1.popn1.website/" target="_blank" class="mentor-contact-btn whatsapp-btn">
+          <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
           <span>WHATSAPP</span>
         </a>
-        <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-          <!-- ✅ OPTIMIZED: dimensions for CLS -->
-          <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
-               alt="Telegram" 
-               class="mentor-contact-icon"
-               width="24"
-               height="24"
-               loading="lazy" />
+        <a href="https://n1.popn1.website/tg" target="_blank" class="mentor-contact-btn telegram-btn">
+          <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
           <span>TELEGRAM</span>
         </a>
       </div>
@@ -149,14 +105,7 @@
       <button class="modal-close-btn" id="orderModalCloseBtn">&times;</button>
       <h3 class="modal-title">REIVINDIQUE SEU PRÊMIO!!</h3>
       <div class="order-product-info-centered">
-        <!-- ✅ OPTIMIZED: dimensions for modal image -->
-        <img id="orderProductImg" 
-             src="..." 
-             alt="" 
-             class="modal-product-img"
-             width="250"
-             height="250"
-             loading="lazy" />
+        <img id="orderProductImg" src="..." alt="" class="modal-product-img" />
         <div id="orderProductName" class="modal-product-title"></div>
       </div>
       <form id="orderForm">
@@ -232,7 +181,7 @@
         <label for="platform"><strong>PLATAFORMA</strong></label>
         <select name="platform" id="platform" required>
           <option value="" disabled selected>Escolha a plataforma</option>
-          <option value="POPVAI">POPVAI</option>
+          <option value="POPN1">POPN1</option>
         </select>
         <small style="display:block; margin-bottom:8px; color:#F87171; text-align:right;">Escolha a plataforma correta</small>
           
@@ -274,24 +223,12 @@
         <div class="mentor-contact-section" style="margin-top:18px;">
           <div class="mentor-contact-title">Não tem Código Secreto? Encontre um mentor</div>
           <div class="mentor-contact-btn-row">
-            <a href="http://pop-agent.com/wa" target="_blank" class="mentor-contact-btn whatsapp-btn">
-              <!-- ✅ OPTIMIZED: dimensions for modal images -->
-              <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" 
-                   alt="WhatsApp" 
-                   class="mentor-contact-icon"
-                   width="24"
-                   height="24"
-                   loading="lazy" />
+            <a href="https://n1.popn1.website/" target="_blank" class="mentor-contact-btn whatsapp-btn">
+              <img src="https://i.ibb.co/BHYkmXfs/Whatsapp-Transparent.gif" alt="WhatsApp" class="mentor-contact-icon" />
               <span>WHATSAPP</span>
             </a>
-            <a href="https://poppremio.com/tg" target="_blank" class="mentor-contact-btn telegram-btn">
-              <!-- ✅ OPTIMIZED: dimensions for modal images -->
-              <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" 
-                   alt="Telegram" 
-                   class="mentor-contact-icon"
-                   width="24"
-                   height="24"
-                   loading="lazy" />
+            <a href="https://n1.popn1.website/tg" target="_blank" class="mentor-contact-btn telegram-btn">
+              <img src="https://i.ibb.co/s9x87GHJ/Telegram-logo.gif" alt="Telegram" class="mentor-contact-icon" />
               <span>TELEGRAM</span>
             </a>
           </div>
@@ -301,7 +238,7 @@
   </div>
 
   <script>
-    window.REDEPOP_MANIFEST_URL = "https://cdn.jsdelivr.net/gh/DaniPop88/RedePop@5c0ba5b40abc87129cf9a7c1714f657643267baf/manifest.json";
+    window.REDEPOP_MANIFEST_URL = "./manifest.json";
   </script>
   <script src="cities.js"></script>
   <script src="city-selector.js"></script>
