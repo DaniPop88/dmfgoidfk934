@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>CONFIRMAÇÃO DO PRÊMIO - POPVAI</title>
   <link rel="shortcut icon" href="https://i.ibb.co/BKdsNcw0/Favicon.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -14,7 +15,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 15px;
     }
     .confirmation-container {
       background: white;
@@ -29,7 +30,7 @@
       background: linear-gradient(180deg, #8B5CF6, #35126d);
       color: white;
       text-align: center;
-      padding: 40px 20px;
+      padding: 25px 20px;
       position: relative;
       overflow: hidden;
     }
@@ -48,8 +49,8 @@
       50% { transform: scale(1.1); opacity: 0.8; }
     }
     .trophy {
-      font-size: 5rem;
-      margin-bottom: 15px;
+      font-size: 4rem;
+      margin-bottom: 10px;
       animation: bounce 1s ease-in-out infinite;
       position: relative;
       z-index: 1;
@@ -59,16 +60,16 @@
       50% { transform: translateY(-15px); }
     }
     .confirmation-header h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 900;
-      margin: 0 0 10px 0;
+      margin: 0 0 8px 0;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
       letter-spacing: 3px;
       position: relative;
       z-index: 1;
     }
     .confirmation-header p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin: 0;
       opacity: 0.95;
       font-weight: 600;
@@ -76,7 +77,7 @@
       z-index: 1;
     }
     .confirmation-body {
-      padding: 40px 30px;
+      padding: 25px 20px;
       position: relative;
     }
     .watermark {
@@ -93,23 +94,23 @@
     }
     .product-section {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 20px;
       position: relative;
       z-index: 1;
     }
     .product-img {
-      width: 220px;
-      height: 220px;
+      width: 180px;
+      height: 180px;
       object-fit: contain;
-      margin: 0 auto 20px;
+      margin: 0 auto 15px;
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
       background: white;
-      padding: 15px;
+      padding: 12px;
       border: 3px solid #8B5CF6;
     }
     .product-name {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: #6D28D9;
       margin: 0;
@@ -122,9 +123,9 @@
       background-image: 
         linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%),
         linear-gradient(135deg, #CBA135 0%, #FFD700 50%, #5d4d0c 100%);
-      border-radius: 20px;
-      padding: 30px 25px;
-      margin: 35px 0;
+      border-radius: 15px;
+      padding: 20px 18px;
+      margin: 20px 0;
       text-align: center;
       box-shadow: 0 15px 40px rgba(76, 1, 122, 0.5);
       border: 3px solid #473a07;
@@ -137,32 +138,32 @@
       50% { box-shadow: 0 15px 50px rgba(106, 91, 1, 0.7), 0 0 25px rgba(255, 215, 0, 0.4); }
     }
     .code-label {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #8B4513;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
     .secret-code {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 900;
       color: #8B4513;
-      letter-spacing: 10px;
-      margin: 20px 0;
+      letter-spacing: 8px;
+      margin: 15px 0;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
       font-family: 'Courier New', monospace;
       background: rgba(255,255,255,0.4);
-      padding: 20px 15px;
+      padding: 15px 12px;
       border-radius: 12px;
       border: 3px dashed #8B4513;
       word-break: break-all;
     }
     .code-warning {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #DC2626;
-      margin-top: 15px;
+      margin-top: 12px;
       animation: blink 1.5s ease-in-out infinite;
     }
     @keyframes blink {
@@ -171,9 +172,9 @@
     }
     .details-section {
       background: #f9fafb;
-      border-radius: 15px;
-      padding: 25px;
-      margin: 25px 0;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 18px 0;
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       position: relative;
       z-index: 1;
@@ -183,7 +184,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 0;
+      padding: 10px 0;
       border-bottom: 1px solid #e5e7eb;
     }
     .detail-row:last-child {
@@ -192,7 +193,7 @@
     .detail-label {
       font-weight: 700;
       color: #6D28D9;
-      font-size: 1rem;
+      font-size: 0.95rem;
       flex-shrink: 0;
       margin-right: 15px;
     }
@@ -200,58 +201,87 @@
       font-weight: 600;
       color: #374151;
       text-align: right;
-      font-size: 1rem;
+      font-size: 0.95rem;
       word-break: break-word;
     }
-    .screenshot-warning {
-      background: linear-gradient(180deg, #EF4444 0%, #FF0000 100%);
+    .download-section {
+      background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
       color: white;
-      border-radius: 20px;
-      padding: 30px 25px;
+      border-radius: 15px;
+      padding: 20px;
       text-align: center;
-      margin: 30px 0;
+      margin: 18px 0;
       box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
-      animation: shake 3s ease-in-out infinite;
       position: relative;
       z-index: 1;
       border: 3px solid #DC2626;
     }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-      20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-    .screenshot-icon {
-      font-size: 3.5rem;
-      margin-bottom: 15px;
-    }
-    .screenshot-text {
+    .download-btn {
+      width: 100%;
+      padding: 18px 25px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #DC2626;
+      border: 3px solid #DC2626;
+      border-radius: 12px;
       font-size: 1.2rem;
-      line-height: 1.7;
-    }
-    .screenshot-text strong {
-      font-size: 1.5rem;
-      display: block;
-      margin-bottom: 8px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s ease;
       letter-spacing: 2px;
       text-transform: uppercase;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .download-btn:hover {
+      background: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    .download-btn:active {
+      transform: translateY(0);
+    }
+    .download-icon {
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+    .download-warning {
+      margin-top: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    .bot-link {
+      display: inline-block;
+      background: rgba(255,255,255,0.9);
+      color: #8B4513;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      border: 2px solid #8B4513;
+      margin-top: 12px;
+    }
+    .bot-link:hover {
+      background: white;
+      transform: scale(1.05);
     }
     .footer-note {
       text-align: center;
       color: #6B7280;
-      font-size: 1rem;
-      margin: 25px 0 15px 0;
+      font-size: 0.95rem;
+      margin: 18px 0 12px 0;
       position: relative;
       z-index: 1;
       line-height: 1.6;
     }
     .close-btn {
       width: 100%;
-      padding: 20px;
+      padding: 18px;
       background: linear-gradient(180deg, #8B5CF6, #35126d);
       color: white;
       border: none;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -267,28 +297,33 @@
       transform: translateY(0);
     }
     @media (max-width: 650px) {
-      .confirmation-container { max-width: 95%; margin: 15px auto; }
-      .confirmation-header h1 { font-size: 2.2rem; }
-      .trophy { font-size: 3.5rem; }
-      .secret-code { font-size: 2.5rem; letter-spacing: 6px; padding: 15px 10px; }
-      .product-img { width: 180px; height: 180px; }
-      .product-name { font-size: 1.3rem; }
+      .confirmation-container { max-width: 95%; margin: 10px auto; }
+      .confirmation-header { padding: 20px 15px; }
+      .confirmation-header h1 { font-size: 2rem; }
+      .confirmation-header p { font-size: 1rem; }
+      .trophy { font-size: 3rem; }
+      .secret-code { font-size: 2.2rem; letter-spacing: 5px; padding: 12px 10px; }
+      .product-img { width: 150px; height: 150px; padding: 10px; }
+      .product-name { font-size: 1.2rem; }
       .watermark { width: 250px; height: 250px; }
-      .detail-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .confirmation-body { padding: 20px 15px; }
+      .code-box { padding: 15px; }
+      .details-section { padding: 15px; }
+      .detail-row { flex-direction: column; align-items: flex-start; gap: 4px; padding: 8px 0; }
       .detail-value { text-align: left; }
-      .screenshot-text strong { font-size: 1.3rem; }
-      .confirmation-body { padding: 30px 20px; }
+      .download-btn { font-size: 1.1rem; padding: 15px 20px; }
     }
     @media (max-width: 450px) {
-      .secret-code { font-size: 2rem; letter-spacing: 4px; }
-      .confirmation-header h1 { font-size: 1.9rem; }
-      .product-img { width: 150px; height: 150px; }
-      .detail-label, .detail-value { font-size: 0.9rem; }
+      .secret-code { font-size: 1.8rem; letter-spacing: 3px; }
+      .confirmation-header h1 { font-size: 1.7rem; }
+      .product-img { width: 130px; height: 130px; }
+      .detail-label, .detail-value { font-size: 0.85rem; }
+      .download-btn { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <div class="confirmation-container">
+  <div class="confirmation-container" id="captureArea">
     <div class="confirmation-header">
       <h1>PARABÉNS</h1>
       <p>SEU PRÊMIO PEDIDO FORAM RECEBIDAS!</p>
@@ -303,17 +338,6 @@
         <div class="code-label">Seu Código Secreto</div>
         <div id="secretCode" class="secret-code"></div>
         <div class="code-warning">⚠️ ACESSE <span style="color: #000000;">@LOJAPOPREDEBOT</span> PARA VERIFICAR O STATUS DO SEU PEDIDO DE PRÊMIO.</div>
-        </div>
-      <div class="screenshot-warning">
-        <div class="screenshot-text">
-          <strong>Faça uma print agora!</strong>
-          ⚠️ VOCÊ SÓ PODE VISUALIZAR ISSO UMA VEZ! ⚠️
-          <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(139, 69, 19, 0.3);">
-            <a href="https://t.me/LojaPopRedeBot" target="_blank" style="display: inline-block; background: rgba(255,255,255,0.9); color: #8B4513; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; border: 2px solid #8B4513;">
-              🤖 CLIQUE AQUI PARA RASTREAR 🤖
-            </a>
-          </div>
-        </div>
       </div>
       <div class="details-section">
         <div class="detail-row"><span class="detail-label">Nome:</span><span id="fullName" class="detail-value"></span></div>
@@ -327,6 +351,16 @@
         <div class="detail-row"><span class="detail-label">CEP:</span><span id="zip" class="detail-value"></span></div>
         <div class="detail-row"><span class="detail-label">Data:</span><span id="orderDate" class="detail-value"></span></div>
       </div>
+      <div class="download-section">
+        <button class="download-btn" onclick="downloadImage()">
+          <span class="download-icon">📥</span>
+          BAIXAR COMPROVANTE
+        </button>
+        <div class="download-warning">⚠️ SALVE ESTE COMPROVANTE AGORA! ⚠️</div>
+        <a href="https://t.me/LojaPopRedeBot" target="_blank" class="bot-link">
+          🤖 RASTREAR PEDIDO 🤖
+        </a>
+      </div>
       <div class="footer-note">
         Entraremos em contato em breve para confirmar a entrega do seu prêmio.
       </div>
@@ -338,9 +372,12 @@
     const viewed = sessionStorage.getItem('confirmation_viewed');
     if (viewed) { window.location.href = 'index.html'; }
     sessionStorage.setItem('confirmation_viewed', 'true');
+    
+    const secretCode = urlParams.get('secretCode') || 'CODIGO';
+    
     document.getElementById('productImg').src = urlParams.get('productImg') || '';
     document.getElementById('productName').textContent = urlParams.get('productName') || '';
-    document.getElementById('secretCode').textContent = urlParams.get('secretCode') || '';
+    document.getElementById('secretCode').textContent = secretCode;
     document.getElementById('fullName').textContent = urlParams.get('fullName') || '';
     document.getElementById('cpf').textContent = urlParams.get('cpf') || '';
     document.getElementById('phone').textContent = urlParams.get('phone') || '';
@@ -350,9 +387,26 @@
     document.getElementById('neighborhood').textContent = urlParams.get('neighborhood') || '';
     document.getElementById('cityState').textContent = `${urlParams.get('city')} - ${urlParams.get('state')}`;
     document.getElementById('zip').textContent = urlParams.get('zip') || '';
+    
     const now = new Date();
     const dateStr = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     document.getElementById('orderDate').textContent = dateStr;
+    
+    function downloadImage() {
+      const captureArea = document.getElementById('captureArea');
+      html2canvas(captureArea, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `POPVAI-${secretCode}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+    
     document.addEventListener('contextmenu', (e) => e.preventDefault());
   </script>
 </body>
